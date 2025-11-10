@@ -1,0 +1,40 @@
+# Définit les types de compte possibles
+enum TypeCompte {
+    COURANT
+    EPARGNE
+}
+
+# Définit l'objet Compte
+type Compte {
+    id: ID
+    solde: Float
+    dateCreation: String
+    type: TypeCompte
+}
+
+# Définit le type pour les statistiques de totalSolde
+type Stats {
+    count: Int
+    sum: Float
+    average: Float
+}
+
+# Définit les opérations de lecture (Query)
+type Query {
+    allComptes: [Compte]
+    compteById(id: ID!): Compte
+    totalSolde: Stats
+}
+
+# Définit l'objet d'entrée pour la création
+# Il est préférable d'utiliser un 'input' pour les mutations
+input CompteInput {
+    solde: Float!
+    dateCreation: String!
+    type: TypeCompte!
+}
+
+# Définit les opérations d'écriture (Mutation)
+type Mutation {
+    saveCompte(compte: CompteInput): Compte
+}

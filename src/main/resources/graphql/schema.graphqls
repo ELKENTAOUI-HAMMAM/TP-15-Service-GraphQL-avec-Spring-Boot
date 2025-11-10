@@ -38,3 +38,45 @@ input CompteInput {
 type Mutation {
     saveCompte(compte: CompteInput): Compte
 }
+
+# Enum pour les types de transaction
+enum TypeTransaction {
+    DEPOT
+    RETRAIT
+}
+
+# Type pour une transaction
+type Transaction {
+    id: ID
+    date: String
+    montant: Float
+    type: TypeTransaction
+    compte: Compte
+}
+
+# Input pour ajouter une transaction
+input TransactionRequest {
+    compteId: ID!
+    montant: Float!
+    date: String!
+    type: TypeTransaction!
+}
+
+# Type pour les statistiques de transaction
+type TransactionStats {
+    count: Int
+    sumDepots: Float
+    sumRetraits: Float
+}
+
+# Ajouter les nouvelles requêtes au type Query existant
+extend type Query {
+    compteTransactions(id: ID!): [Transaction]
+    allTransactions: [Transaction]
+    transactionStats: TransactionStats
+}
+
+# Ajouter la nouvelle mutation au type Mutation existant
+extend type Mutation {
+    addTransaction(transaction: TransactionRequest): Transaction
+}
